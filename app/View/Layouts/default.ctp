@@ -23,7 +23,25 @@ $title = "Songwriter";
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+			<h1>
+                <?
+                echo $this->Html->link('Home', array('controller' => '/'));
+
+                // if logged in
+                if ($loggedin) {
+                    echo ' | ' . $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout'));
+                    echo ' | ' . $this->Html->link('Sensay', array('controller' => 'parts', 'action' => 'key'));
+                    // If admin
+                    if ($admin) {
+                        echo ' | ' . $this->Html->link('Users', array('controller' => 'users', 'action' => 'index'));
+                    }
+                } else {
+                    echo ' | ' . $this->Html->link('Login', array('controller' => 'users', 'action' => 'login'));
+                    echo ' | ' . $this->Html->link('Register', array('controller' => 'users', 'action' => 'add'));
+                }
+
+                ?>
+            </h1>
 		</div>
 		<div id="content">
 
@@ -34,7 +52,7 @@ $title = "Songwriter";
 		</div>
 		<div id="footer">
 			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt'=> $cakeDescription, 'border' => '0')),
+					$this->Html->image('cake.power.gif', array('alt'=> 'Cake', 'border' => '0')),
 					'http://www.cakephp.org/',
 					array('target' => '_blank', 'escape' => false)
 				);
