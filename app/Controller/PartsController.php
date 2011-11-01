@@ -2,6 +2,10 @@
 
 class PartsController extends AppController {
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+    }
+
 	function key() {
 		// pick note in 12-note scale relative to A
 		$notes = array(
