@@ -6,8 +6,8 @@ print <<<HTML
     <table>
         <tr><td width="60"><b> Key: </b></td><td> <em>$key $mode</em></td></tr>
         <tr><td><b> Arrangement: </b></td><td> <em>$arrangement</em></td></tr>
-        <tr><td><b> Tempo: </b></td><td> <em>$speed</em></td></tr>
-        <tr><td><b> Feel: </b></td><td> <em>$feel and $feel_2</em></td></tr>
+        <tr><td><b> Tempo: </b></td><td> <em>$tempo</em></td></tr>
+        <tr><td><b> Song concepts: </b></td><td> <em>$concepts</em></td></tr>
     </table>
     <br>
 HTML;
