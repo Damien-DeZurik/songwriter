@@ -42,20 +42,46 @@ class Part extends AppModel {
         for ($p = 0; $p < $chords; $p++) {
             $arrangement[] = $characters[mt_rand(0, strlen($characters)-1)];
         }
-        return $this->applyArrangementRules($arrangement);
+        return $arrangement;
     }
 
-    function applyArrangementRules($arrangement) {
+    function applyArrangementRules() {
         // The 1 should be introduced early
+	$arrangement = array();
+	$fail = true;
+	$tries = 0;
+	while ($fail) {
+		$tries++;
+		// Get an arrangement
+		$arrangement = $this->getArrangement();
 
+		// Find the first '1' position
+		$found=-1;
+		for ($i=0;$i<sizeof($arrangement);$i++) {
+			if ($arrangement[$i] == 1) {
+				$found=$i;
+				break;
+			}
+		}
+		// if we found it in the first 2 place, we are good
+		if ($found >= 0 && $found < 2) {
+			$fail=false;
+		}
+		// If we dont get in three tries, just prepend the 1.
+		// This makes is more likely to be the first
+		if ($tries > 2) {
+			array_unshift($arrangement, 1);
+			$fail = false;
+		}
+	} 
+		
         // A 5 or 4 should be used, if no 4 or 5 should have a 3 or 6. 2 or 7 would sound funny w/o 4 or 5 :: if no 4 or 5, should use 3 or 6
 
         return $arrangement;
     }
 
     function getChords($key, $mode) {
-        $arrangement = $this->getArrangement();
-        $arrangement_adjusted = $this->applyArrangementRules($arrangement);
+        $arrangement_adjusted = $this->applyArrangementRules();
         return $this->makeChords($key, $mode, $arrangement_adjusted);
     }
 
