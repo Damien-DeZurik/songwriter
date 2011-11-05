@@ -24,13 +24,13 @@ class Part extends AppModel {
 
     function getMode() {
         $modes = array(
-            'Major (mixolydian)',
-            'Minor (aeolian)',
-            'Minor (locrian)',
-            'Major (ionian)',
-            'Minor (dorian)',
-            'Minor (phrygian)',
-            'Major (lydian)',
+            array('Major','mixolydian'),
+            array('Minor','aeolian'),
+            array('Minor','locrian'),
+            array('Major','ionian'),
+            array('Minor','dorian'),
+            array('Minor','phrygian'),
+            array('Major','lydian'),
         );
         return $modes[ mt_rand(0,sizeof($modes)-1) ];
     }

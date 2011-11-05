@@ -12,8 +12,9 @@ class PartsController extends AppController {
         $this->set('key', $key);
 
         // Pick mode
-        $mode = $this->Part->getMode();
+        list($maj_min, $mode) = $this->Part->getMode();
         $this->set('mode', $mode);
+        $this->set('maj_min', $maj_min);
 
         // Get series of chords
         $this->set('arrangement', $this->Part->getChords($key, $mode));
