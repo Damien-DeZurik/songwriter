@@ -45,37 +45,74 @@ class Part extends AppModel {
         return $arrangement;
     }
 
+    /**
+     * The tonic should be introduced early in the arrangement
+     */
+    function checkTonicRule(&$arrangement) {
+        $fail = true;
+        // Find the first '1' position
+        $found=-1;
+        for ($i=0;$i<sizeof($arrangement);$i++) {
+            if ($arrangement[$i] == 1) {
+                $found=$i;
+                break;
+            }
+        }
+        // if we found it in the first or second place, we are good
+        if ($found >= 0 && $found < 2) {
+            $fail=false;
+        }
+        return !$fail;
+    }
+
+    /**
+     * A 5 or 4 should be used, if no 4 or 5 should have a 3 or 6. 2 or 7 would
+     *  sound funny w/o 4 or 5 :: if no 4 or 5, should use 3 or 6
+     */
+    function checkFourFiveThreeSixRule(&$arrangement) {
+        // Need a 4 or 5
+        if (!array_search(4, $arrangement) && !array_search(5, $arrangement)) {
+            // If no 4 and 5, need a three or 6
+            if (!array_search(3, $arrangement) && !array_search(6, $arrangement)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     function applyArrangementRules() {
         // The 1 should be introduced early
-	$arrangement = array();
-	$fail = true;
-	$tries = 0;
-	while ($fail) {
-		$tries++;
-		// Get an arrangement
-		$arrangement = $this->getArrangement();
+        $arrangement = array();
+        $pass = false;
+        $tries = 0;
+        while (!$pass) {
+            $tries++;
 
-		// Find the first '1' position
-		$found=-1;
-		for ($i=0;$i<sizeof($arrangement);$i++) {
-			if ($arrangement[$i] == 1) {
-				$found=$i;
-				break;
-			}
-		}
-		// if we found it in the first 2 place, we are good
-		if ($found >= 0 && $found < 2) {
-			$fail=false;
-		}
-		// If we dont get in three tries, just prepend the 1.
-		// This makes is more likely to be the first
-		if ($tries > 2) {
-			array_unshift($arrangement, 1);
-			$fail = false;
-		}
-	} 
-		
-        // A 5 or 4 should be used, if no 4 or 5 should have a 3 or 6. 2 or 7 would sound funny w/o 4 or 5 :: if no 4 or 5, should use 3 or 6
+            // Get an arrangement
+            $arrangement = $this->getArrangement();
+
+            // Tonic Rule - A 1 should be early on in the arrangement
+            $pass = $this->checkTonicRule($arrangement);
+
+            // If we dont get in three tries, just prepend the 1.
+            // This makes is more likely to be the first
+            if ($tries > 2) {
+                array_unshift($arrangement, 1);
+                $pass = true;
+            }
+
+            // Try again until get the tonic rule right.
+            if (!$pass) {
+                continue;
+            }
+
+            // FourFiveThreeSix Rule
+            $pass = $this->checkFourFiveThreeSixRule($arrangement);
+
+            //
+            // Loop will continue until $pass is true;
+            //
+        }
 
         return $arrangement;
     }
