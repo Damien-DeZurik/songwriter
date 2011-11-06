@@ -10,7 +10,10 @@ print <<<HTML
         <tr><td><b> Song concepts: </b></td><td> <em>$concepts</em></td></tr>
     </table>
     <br>
+    <h4>{$this->Html->link('Try another...', array('controller' => 'parts', 'action' => 'key'))}</h4>
+    <br>
+    <pre>$debug</pre>
 HTML;
 ?>
 
-<h4><? print $this->Html->link('Try another...', array('controller' => 'parts', 'action' => 'key')); ?>
+

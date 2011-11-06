@@ -17,13 +17,17 @@ class PartsController extends AppController {
         $this->set('maj_min', $maj_min);
 
         // Get series of chords
-        $this->set('arrangement', $this->Part->getChords($key, $mode));
+        list($chords, $debug) = $this->Part->getChords($key, $mode);
+        $this->set('arrangement', $chords);
 
         // Pick a speed
         $this->set('tempo', $this->Part->getTempo());
 
         // Grab an adverb or two
         $this->set('concepts', $this->Part->getConcepts());
-	}
+
+        // Show debugging
+        $this->set('debug', print_r($debug,true));
+    }
 }
 

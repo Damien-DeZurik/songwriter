@@ -86,52 +86,67 @@ class Part extends AppModel {
     }
 
     function makeChords($key, $mode, $arrangement) {
-        // sharp, flat, or natural
-        $affinity = strstr('#', $key) ? 'sharp' : strstr('b', $key) ? 'flat' : 'natural';
+        $debug = array();
 
-	$maj_harm = array('','m','m','','','m','dim');
-	$min_harm = array('m','dim','','m','m','','');
+        $debug['Key'] = $key;
+        $debug['Mode'] = $mode;
+        $debug['Arrangement'] = implode('|',$arrangement);
 
-	$intervals = array(
-		'mixolydian' => array(array(2,2,1,2,2,1,2), $maj_harm),
-                'aeolian'    => array(array(2,1,2,2,1,2,2), $min_harm),
-                'locrian'    => array(array(1,2,2,1,2,2,2), $min_harm),
-                'ionian'     => array(array(2,2,1,2,2,2,1), $maj_harm),
-                'dorian'     => array(array(2,1,2,2,2,1,2), $min_harm),
-                'phrygian'   => array(array(1,2,2,2,1,2,2), $min_harm),
-                'lydian'     => array(array(2,2,2,1,2,2,1), $maj_harm),
-	);
-	
-	$interval = $intervals[$mode][0];
-	$harm     = $intervals[$mode][1];
+        $maj_harm = array('','m','m','','','m','dim');
+        $min_harm = array('m','dim','','m','m','','');
 
-	// Make lists for sharps and flats
+        $intervals = array(
+            'mixolydian' => array(array(2,2,1,2,2,1,2), $maj_harm),
+            'aeolian'    => array(array(2,1,2,2,1,2,2), $min_harm),
+            'locrian'    => array(array(1,2,2,1,2,2,2), $min_harm),
+            'ionian'     => array(array(2,2,1,2,2,2,1), $maj_harm),
+            'dorian'     => array(array(2,1,2,2,2,1,2), $min_harm),
+            'phrygian'   => array(array(1,2,2,2,1,2,2), $min_harm),
+            'lydian'     => array(array(2,2,2,1,2,2,1), $maj_harm),
+        );
+
+        $interval = $intervals[$mode][0];
+        $harm     = $intervals[$mode][1];
+
+        $debug['Interval'] = implode('|',$interval);
+        $debug['Harm']     = implode('|',$harm);
+
+        // Make lists for sharps and flats
         $flatscale    = array('A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab');
         $sharpscale   = array('A','A#','B','C','C#','D','D#','E','F','F#','G','G#','A','A#','B','C','C#','D','D#','E','F','F#','G','G#');
 
-	// Determine which series to use 
-	$a = strstr('#', $key) ? $sharpscale : $flatscale;
+        // Determine which series to use 
+        $notescale = strstr('b', $key) ? $flatscale : $sharpscale;
 
-	// Get the starting index
-	$start_index = (array_search($key, $a));
+        $debug['Notescale'] = implode('|',$notescale);
 
-	// Make scale of intervalse
-	$ctr = 0;
-	$i = $start_index;
-	foreach ($interval as $step) {
-                $scale[] = $a[$i] . $harm[$ctr++];
-		$i += $step;
+        // Get the starting index
+        $start_index = (array_search($key, $notescale));
+
+        $debug['Start_index'] = $start_index;
+
+        // Make scale of intervalse
+        $ctr = 0;
+        $i = $start_index;
+        foreach ($interval as $step) {
+            $scale[] = $notescale[$i] . $harm[$ctr++];
+            $i += $step;
         }
-	
-	// Double the len so we can iterate from any point w/o wrapping.
-	$scalelong = array_merge($scale, $scale);
 
-	$chords = '';
-	foreach ($arrangement as $val) {
-		$chords .= $scalelong[($val-1)] . '&nbsp;&nbsp; ';
-	}
+        // Double the len so we can iterate from any point w/o wrapping.
+        $scalelong = array_merge($scale, $scale);
 
-	return "$chords (".implode(' ', $arrangement).")";
+        $debug['Scale'] = implode('|', $scalelong);
+
+        $chords = '';
+        foreach ($arrangement as $val) {
+            $chords .= $scalelong[($val-1)] . '&nbsp;&nbsp; ';
+        }
+
+        $debug['Chords'] = $chords;
+
+        return array($chords, $debug);
+        //return "$chords (".implode(' ', $arrangement).")";
         //return implode(' ', $arrangement) . ": [" . implode(',',$scalelong) . "] : {" . implode(',',$harm) . "} ($chords)";
     }
 
