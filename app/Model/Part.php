@@ -153,7 +153,7 @@ class Part extends AppModel {
         $sharpscale   = array('A','A#','B','C','C#','D','D#','E','F','F#','G','G#','A','A#','B','C','C#','D','D#','E','F','F#','G','G#');
 
         // Determine which series to use 
-        $notescale = strstr('b', $key) ? $flatscale : $sharpscale;
+        $notescale = strstr($key, 'b') ? $flatscale : $sharpscale;
 
         $debug['Notescale'] = implode('|',$notescale);
 
