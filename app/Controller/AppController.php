@@ -20,6 +20,16 @@ class AppController extends Controller {
 
         // Set logged in
         $this->set('loggedin', $this->isLoggedIn());
+
+	// Mode
+	$this->loadModel('Part');
+	list($maj_min, $mode) = $this->Part->getMode();
+	$key = $this->Part->getKey();
+	$this->set('key', "$key $maj_min ($mode)");
+
+	// Set the daily arrangements
+	$this->loadModel('Arrangement');
+	$this->set('arrangements', $this->Arrangement->find('all'));
     }
 
     private function isAdmin() {
