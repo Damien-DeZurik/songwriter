@@ -183,8 +183,6 @@ class Part extends AppModel {
         $debug['Chords'] = $chords;
 
         return array($chords, $debug);
-        //return "$chords (".implode(' ', $arrangement).")";
-        //return implode(' ', $arrangement) . ": [" . implode(',',$scalelong) . "] : {" . implode(',',$harm) . "} ($chords)";
     }
 
     function getTempo() {
