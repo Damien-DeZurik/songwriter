@@ -35,6 +35,34 @@ class Part extends AppModel {
         return $modes[ mt_rand(0,sizeof($modes)-1) ];
     }
 
+    /**
+     * @brief Translate incoming array of song parts into label/value pairs in the same array.
+     */
+    function makeSongDisplayParts($songparts) {
+        $song = json_decode($songparts,true);
+        $song['key'] = "{$song['_key']} {$song['_affinity']} ({$song['_mode']})";
+        $song['chords'] = $song['_chords'];
+        $song['concepts'] = $song['_concepts'];
+        return $song;
+    }
+
+    /**
+     * @brief Assemble all parts that make up a song and create one.
+     * @return Array(json encoded song parts)
+     */
+    function createSong() {
+        $song = array();
+
+        // Assemble the components
+        $song['_key'] = $this->getKey();
+        list($song['_affinity'], $song['_mode']) = $this->getMode();
+        list($song['_chords'], $song['_debug']) = $this->getChords($song['_key'], $song['_mode']);
+        $song['_tempo'] = $this->getTempo();
+        $song['_concepts'] = $this->getConcepts();
+
+        return json_encode($song);
+    }
+
     function getArrangement() {
         $chords = mt_rand(2,6);
         $characters = '1234567';

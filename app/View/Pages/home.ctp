@@ -1,8 +1,29 @@
-<h3>Song for the week</h3>
-<? print $key; ?>
+
+<h3>Song of the Week</h3>
+<table>
+    <?php foreach ($songparts as $label => $part): ?>
+    <?php if (substr($label,0,1) != '_'): ?>
+    <tr>
+        <th><?php echo $label; ?></th>
+        <td><?php echo $part; ?></td>
+    </tr>
+    <?php endif; ?>
+    <?php endforeach; ?>
+</table>
+
+<h3>Full</h3>
+<? print $debug; ?>
 <br >
 <br >
 <br>
+
+<h3>Todo list</h3>
+<? print $todo; ?>
+<br >
+<br >
+<br>
+
+
 
 <h3>Archive</h3>
 <table>
