@@ -1,7 +1,7 @@
 
 <h3>Song of the Week</h3>
 <table>
-    <?php foreach ($songparts as $label => $part): ?>
+    <?php foreach ($songoftheweek as $label => $part): ?>
     <?php if (substr($label,0,1) != '_'): ?>
     <tr>
         <th><?php echo $label; ?></th>
@@ -10,24 +10,12 @@
     <?php endif; ?>
     <?php endforeach; ?>
 </table>
-
-<h3>Full</h3>
-<? print $debug; ?>
-<br >
-<br >
-<br>
-
-<h3>Todo list</h3>
-<? print $todo; ?>
-<br >
-<br >
-<br>
-
-
+<div align="right"><em><?php print $timeleft; ?></em></div>
 
 <h3>Archive</h3>
 <table>
     <tr>
+        <th>oOo</th>
         <th>oOo</th>
         <th>oOo</th>
     </tr>
@@ -39,12 +27,29 @@
 		?></td>
 		<td>
 			<?
-			$parts = json_decode($arrangement['Arrangement']['arrangement'], true); 
-			foreach ($parts as $k=>$v) {
+			$parts = json_decode($arrangement['Arrangement']['arrangement'], true);
+            $debug = $parts['_debug'];
+            unset($parts['_debug']);
+
+            foreach ($parts as $k=>$v) {
 				print "<strong>$k</strong> <em>$v</em><br/>";
 			}
 			?>
 		</td>
+        <td>
+            <?
+            foreach ($debug as $k=>$v) {
+                print "&nbsp;&nbsp;&nbsp;&nbsp;<small>$k: '<em>$v</em>'</small><br />";
+            }
+            ?>
+        </td>
 	</tr>
 	<? endforeach; ?>
 </table>
+
+
+<h3>Todo list</h3>
+<? print $todo; ?>
+<br >
+<br >
+<br>

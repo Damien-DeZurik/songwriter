@@ -3,7 +3,6 @@
 class AppController extends Controller {
     //...
 
-
     public $components = array(
         'Session',
         'Auth' => array(
@@ -50,14 +49,23 @@ class AppController extends Controller {
             $this->Arrangement->saveAll($savedata);
         }
 
-        // Show the arrangement
-        $this->set('debug', $song);
+        // Shows song of the week
+        $songoftheweek = $this->Part->makeSongDisplayParts($song);
+        $this->set('songoftheweek', $songoftheweek);
 
-        $songparts = $this->Part->makeSongDisplayParts($song);
-        $this->set('songparts', $songparts);
+        // Calculate how much time to next song
+        $nextweek = (date("W",time())) + 1;
+        $curyear = date("Y",time());
+        $dt = new DateTime();
+        $dt->setISODate($curyear,$nextweek);
+        $nexttime = $dt->format('U');
+        $seconds = ($nexttime - time());
+        $minutes = ($seconds / 60);
+        $hours = ($minutes / 60);
+        $days = ($hours / 24);
+        $this->set('timeleft', "The next song will be available in $hours hours ($days days)");
 
-        // Set the daily arrangements
-        //$this->loadModel('Arrangement');
+        // Show existing arrangements
         $this->set('arrangements', $this->Arrangement->find('all'));
 
         // Show my todo list
@@ -66,7 +74,6 @@ class AppController extends Controller {
             <li>Concepts came up with same word twice.
             <li>Move uncommon code out of AppController cuz runs always
             <li>Unique constraint on week+year on arr_weeks
-            <li>FIX: {"Key":null,"Mode":null,"Arrangement":"1|4|5|2","Interval":null,"Harm":null,"Notescale":"A|A#|B|C|C#|D|D#|E|F|F#|G|G#|A|A#|B|C|C#|D|D#|E|F|F#|G|G#","Start_index":false,"Scale":null,"Chords":"            "}
 qq;
         $this->set('todo', $list);
     }
@@ -88,5 +95,4 @@ qq;
         }
         return true;
     }
-
 }
