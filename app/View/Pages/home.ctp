@@ -5,7 +5,7 @@
     <?php if (substr($label,0,1) != '_'): ?>
     <tr>
         <th><?php echo $label; ?></th>
-        <td><?php echo $part; ?></td>
+        <td width="100%"><?php echo $part; ?></td>
     </tr>
     <?php endif; ?>
     <?php endforeach; ?>
