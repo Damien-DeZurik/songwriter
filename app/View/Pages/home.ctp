@@ -10,7 +10,7 @@
     <?php endif; ?>
     <?php endforeach; ?>
 </table>
-<div align="right"><em><?php print $timeleft; ?></em></div>
+<div align="right">The next song will be available in <strong><em style="color:green;"><?php print $timeleft; ?></em></strong></div>
 
 <h3>Archive</h3>
 <table>

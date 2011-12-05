@@ -56,14 +56,36 @@ class AppController extends Controller {
         // Calculate how much time to next song
         $nextweek = (date("W",time())) + 1;
         $curyear = date("Y",time());
-        $dt = new DateTime();
+        $dt = new DateTime('now');
         $dt->setISODate($curyear,$nextweek);
-        $nexttime = $dt->format('U');
-        $seconds = ($nexttime - time());
+        $newsongtime = strtotime($dt->format('Y-m-d') . ' 00:00:00');
+        // Calculate times
+        $seconds = ($newsongtime - time());
         $minutes = ($seconds / 60);
         $hours = ($minutes / 60);
         $days = ($hours / 24);
-        $this->set('timeleft', "The next song will be available in $hours hours ($days days)");
+        //Decide whether to show days, hours, minutes, or seconds
+        $timevalue = (float)$days;
+        $units = 'days';
+        // Switch to hours
+        if ($timevalue < 1.0) {
+            $timevalue = (float)$hours;
+            $units = 'hours';
+        }
+        // Switch to minutes
+        if ($timevalue < 1.0) {
+            $timevalue = (float)$minutes;
+            $units = 'minutes';
+        }
+        // Switch to seconds
+        if ($timevalue < 1.0) {
+            $timevalue = (float)$seconds;
+            $units = 'seconds';
+        }
+        // Round timeval
+        $timevalue = floor((float)$timevalue);
+
+        $this->set('timeleft', "$timevalue $units");
 
         // Show existing arrangements
         $this->set('arrangements', $this->Arrangement->find('all'));
