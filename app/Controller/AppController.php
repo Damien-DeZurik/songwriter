@@ -1,103 +1,23 @@
 <?php
-//App::uses('Controller', 'Controller');
 class AppController extends Controller {
-    //...
 
     public $components = array(
         'Session',
         'Auth' => array(
-            'loginRedirect' => array('controller' => 'parts', 'action' => 'key'),
+            'loginRedirect' => array('controller' => 'songs'),
             'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
-            'authorize' => array('Controller') // Added this line
+            'authorize' => array('Controller')
         ),
     );
 
     function beforeFilter() {
-        $this->Auth->allow('index', 'view');
+        $this->Auth->allow('index', 'allsongs', 'songoftheweek', 'sensay');
 
         // Set admin variable
         $this->set('admin', $this->isAdmin());
 
         // Set logged in
         $this->set('loggedin', $this->isLoggedIn());
-
-        // Song of the week
-        list($year,$week) = explode('.', date("Y.W",time()));
-
-        $this->loadModel('Part');
-        $this->loadModel('Arrangement');
-        $mArrangement = $this->Arrangement->find('first', array('conditions'=>array('year' => $year, 'week' => $week)));
-        // 1. Determine if we have a song for this week yet
-        if ($mArrangement) {
-            // We have an arrangement to display
-            $song = $mArrangement['Arrangement']['arrangement'];
-        } else {
-            // Create a new one
-            $song = $this->Part->createSong();
-
-            // Save it to db as this week's song
-            $savedata = array(
-                'Arrangement' => array(
-                    'created'=>date("Y-m-d H:i:s", time()),
-                    'arrangement'=>$song
-                ),
-                'Arrangements_week' => array(
-                    'year'=>$year,
-                    'week'=>$week,
-                ),
-            );
-            $this->Arrangement->saveAll($savedata);
-        }
-
-        // Shows song of the week
-        $songoftheweek = $this->Part->makeSongDisplayParts($song);
-        $this->set('songoftheweek', $songoftheweek);
-
-        // Calculate how much time to next song
-        $nextweek = (date("W",time())) + 1;
-        $curyear = date("Y",time());
-        $dt = new DateTime('now');
-        $dt->setISODate($curyear,$nextweek);
-        $newsongtime = strtotime($dt->format('Y-m-d') . ' 00:00:00');
-        // Calculate times
-        $seconds = ($newsongtime - time());
-        $minutes = ($seconds / 60);
-        $hours = ($minutes / 60);
-        $days = ($hours / 24);
-        //Decide whether to show days, hours, minutes, or seconds
-        $timevalue = (float)$days;
-        $units = 'days';
-        // Switch to hours
-        if ($timevalue < 1.0) {
-            $timevalue = (float)$hours;
-            $units = 'hours';
-        }
-        // Switch to minutes
-        if ($timevalue < 1.0) {
-            $timevalue = (float)$minutes;
-            $units = 'minutes';
-        }
-        // Switch to seconds
-        if ($timevalue < 1.0) {
-            $timevalue = (float)$seconds;
-            $units = 'seconds';
-        }
-        // Round timeval
-        $timevalue = floor((float)$timevalue);
-
-        $this->set('timeleft', "$timevalue $units");
-
-        // Show existing arrangements
-        $this->set('arrangements', $this->Arrangement->find('all'));
-
-        // Show my todo list
-        $list = <<<qq
-            <li>Song of the week has to recover and fill in missing weeks if not gen'd
-            <li>Concepts came up with same word twice.
-            <li>Move uncommon code out of AppController cuz runs always
-            <li>Unique constraint on week+year on arr_weeks
-qq;
-        $this->set('todo', $list);
     }
 
     private function isAdmin() {
