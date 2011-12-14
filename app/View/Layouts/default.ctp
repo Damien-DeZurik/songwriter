@@ -25,24 +25,23 @@ $title = "Songwriter";
 		<div id="header">
 			<h1>
                 <?
-                echo $this->Html->link('Home', array('controller' => '/'));
-                echo ' | ' . $this->Html->link('Sensay', array('controller' => 'songs', 'action' => 'sensay'));
-                echo ' | ' . $this->Html->link('Song of the Week', array('controller' => 'songs', 'action' => 'songoftheweek'));
-                echo ' | ' . $this->Html->link('All Songs', array('controller' => 'songs', 'action' => 'allsongs'));
+                //echo $this->Html->link('Home', array('controller' => '/'));
+                echo $this->Html->link('Song of the Week', array('controller' => 'songs', 'action' => 'songoftheweek'));
 
-                // if logged in
                 if ($loggedin) {
-                    // If admin
+                    echo ' | ' . $this->Html->link('Sensay', array('controller' => 'songs', 'action' => 'sensay'));
+                    echo ' | ' . $this->Html->link('All Songs', array('controller' => 'songs', 'action' => 'allsongs'));
                     if ($admin) {
                         echo ' | ' . $this->Html->link('Users', array('controller' => 'users', 'action' => 'index'));
+                        echo ' | ' . $this->Html->link('Register', array('controller' => 'users', 'action' => 'add'));
                     }
                     echo ' | ' . $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout'));
                 } else {
                     echo ' | ' . $this->Html->link('Login', array('controller' => 'users', 'action' => 'login'));
-                    echo ' | ' . $this->Html->link('Register', array('controller' => 'users', 'action' => 'add'));
                 }
 
                 ?>
+                </div>
             </h1>
 		</div>
 		<div id="content">
