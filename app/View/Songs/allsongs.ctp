@@ -8,10 +8,12 @@
     </tr>
     <?php foreach ($songs as $song): ?>
     <tr>
-        <td><? 
+        <td>
+        <?
             // Fixme - format in mysql
-            echo date("M-d-y H:i:s", strtotime($song['Song']['created'])); 
-        ?></td>
+            echo date("Y-m-d H:i:s", strtotime($song['Song']['created']));
+        ?>
+        </td>
         <td>
             <?
             $parts = json_decode($song['Song']['arrangement'], true);
