@@ -13,8 +13,9 @@
 <div align="right">The next song will be available in <strong><em style="color:green;"><?php print $timeleft; ?></em></strong></div>
 
 
-<h3>Todo list</h3>
-<? print $todo; ?>
-<br >
-<br >
-<br>
+<?
+    if ($loggedin && $admin) {
+        print "<h3>Todo list</h3>
+                $todo";
+    }
+?>

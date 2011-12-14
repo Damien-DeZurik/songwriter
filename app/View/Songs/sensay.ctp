@@ -13,8 +13,6 @@ print <<<HTML
     </table>
     <br>
     <h4>{$this->Html->link('Try another...', array('controller' => 'songs', 'action' => 'sensay'))}</h4>
-    <br>
-    <pre>$debug</pre>
 HTML;
 ?>
 
