@@ -100,8 +100,20 @@ class SongsController extends AppController {
         $list = <<<qq
             <li>Song of the week has to recover and fill in missing weeks if not gen'd
             <li>Concepts came up with same word twice.
-            <li>Move uncommon code out of AppController cuz runs always
             <li>Unique constraint on week+year on arr_weeks
+            <li>have a debug controller, so I can just, when logged in, type in my
+            ideas and they save in a pagn'td list.
+            <li>Click [+] by sotw, expands to show debugging info that matters
+            (scale, harm, arrangement, mode) to a user, have wordings on what you
+            can and can't do with songs.
+            >>You may not use all the chords. Try to use most of the song.
+            >> Concepts: Think about "xxx" and what it means to you. What other
+            meanings can it have.
+            <li>Have a second [+] or [++] to expand those wordings that never
+            change, like the definition of "Concepts".
+            * Use Sansay format on Song of the Week
+            * '|' delimiter still on "Arrangement" in Sensay
+            * Unit tests, deploy
 qq;
         $this->set('todo', $list);
     }

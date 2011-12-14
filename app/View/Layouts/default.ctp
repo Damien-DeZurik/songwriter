@@ -24,6 +24,7 @@ $title = "Songwriter";
 	<div id="container">
 		<div id="header">
 			<h1>
+                <div>
                 <?
                 //echo $this->Html->link('Home', array('controller' => '/'));
                 echo $this->Html->link('Song of the Week', array('controller' => 'songs', 'action' => 'songoftheweek'));
@@ -66,6 +67,6 @@ $title = "Songwriter";
 			?>
 		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	<?php /* echo $this->element('sql_dump'); */ ?>
 </body>
 </html>
