@@ -10,6 +10,7 @@ class SongsController extends AppController {
 
     public function allsongs() {
         $this->Song->recursive = 0;
+        $this->Song->order = 'Song.created DESC';
         $this->set('songs', $this->paginate());
     }
 
