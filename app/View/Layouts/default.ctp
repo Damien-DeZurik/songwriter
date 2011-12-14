@@ -35,9 +35,15 @@ $title = "Songwriter";
                         echo ' | ' . $this->Html->link('Users', array('controller' => 'users', 'action' => 'index'));
                         echo ' | ' . $this->Html->link('Register', array('controller' => 'users', 'action' => 'add'));
                     }
-                    echo ' | ' . $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout'));
+                    echo
+                        '<div style="float:right;">'
+                        . $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout'))
+                        . '</div>';
                 } else {
-                    echo ' | ' . $this->Html->link('Login', array('controller' => 'users', 'action' => 'login'));
+                    echo
+                        '<div style="float:right;">'
+                        . $this->Html->link('Login', array('controller' => 'users', 'action' => 'login'))
+                        . '</div>';
                 }
 
                 ?>
