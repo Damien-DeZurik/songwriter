@@ -1,9 +1,10 @@
-<h3>Song of the Week</h3>
+<h2>Song of the Week</h2>
+
 <table>
     <?php foreach ($songoftheweek as $label => $part): ?>
     <?php if (substr($label,0,1) != '_'): ?>
     <tr>
-        <th><?php echo $label; ?></th>
+        <td><strong><?php echo $label; ?></strong></td>
         <td width="100%"><?php echo $part; ?></td>
     </tr>
     <?php endif; ?>

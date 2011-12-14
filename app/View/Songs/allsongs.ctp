@@ -1,5 +1,5 @@
+<h2>All Songs</h2>
 
-<h3>All Songs</h3>
 <table>
     <tr>
         <th>oOo</th>
