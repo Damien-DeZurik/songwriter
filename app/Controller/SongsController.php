@@ -115,9 +115,9 @@ class SongsController extends AppController {
             meanings can it have.
             <li>Have a second [+] or [++] to expand those wordings that never
             change, like the definition of "Concepts".
-            * Use Sansay format on Song of the Week
-            * '|' delimiter still on "Arrangement" in Sensay
-            * Unit tests, deploy
+            <li>* '|' delimiter still on "Arrangement" in Sensay
+            <li>* Unit tests, deploy
+	
 qq;
         $this->set('todo', $list);
     }
