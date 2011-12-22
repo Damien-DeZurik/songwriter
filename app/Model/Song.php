@@ -41,10 +41,52 @@ class Song extends AppModel {
      */
     function makeSongDisplayParts($songparts) {
         $song = json_decode($songparts,true);
-        $song['key'] = "{$song['_key']} {$song['_affinity']} ({$song['_mode']})";
-        $song['chords'] = $song['_chords'];
-        $song['concepts'] = $song['_concepts'];
+        //$song['key'] = Song::getKeyValue($song,'key') .' '. Song::getKeyValue($song,'affinity').' ('.Song::getKeyValue($song,'mode').')';
+        //$song['chords'] = $song['_chords'];
+        //$song['concepts'] = $song['_concepts'];
+
+        // Check if arrangement is set. if not, may be in the debug section.
+        //if (!isset($song['arrangement'])) {
+        //    $song['arrangement'] = str_replace('|', ' ', Song::getKeyValue($song['debug'], 'Arrangement'));
+        //}
         return $song;
+    }
+
+    /**
+     * Only exists because early indexes used an '_', like '_key' instead of
+     *  'key' and later went to just 'key'.  Is only necessary for the first 6
+     *  or so songs and should be removed after I have a way to open and rewrite
+     *  json values.
+     */
+    private static function getKeyValue(&$data, $key) {
+        if (array_key_exists($key,$data)) {
+            return $data[$key];
+        } else if (array_key_exists('_'.$key, $data)) {
+            return $data['_'.$key];
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * @brief Remove underscores from array keys. Legacy
+     */
+    public static function normalizeArrayKeys(&$data) {
+        // json to array
+        $aData = json_decode($data,true);
+        foreach ($aData as $key => $value) {
+            if (substr($key,0,1) == '_') {
+                // Switch "$data['_key']" with "$data['key']"
+                $aData[substr($key,1)] = $value;
+                unset($aData[$key]);
+            }
+        }
+        // Check if arrangement is set. if not, may be in the debug section.
+        if (!isset($aData['arrangement'])) {
+            $aData['arrangement'] = str_replace('|', ' ', Song::getKeyValue($aData['debug'], 'Arrangement'));
+        }
+        return json_encode($aData);
     }
 
     /**
@@ -55,11 +97,11 @@ class Song extends AppModel {
         $song = array();
 
         // Assemble the components
-        $song['_key'] = $this->getKey();
-        list($song['_affinity'], $song['_mode']) = $this->getMode();
-        list($song['_chords'], $song['_debug']) = $this->getChords($song['_key'], $song['_mode']);
-        $song['_tempo'] = $this->getTempo();
-        $song['_concepts'] = $this->getConcepts();
+        $song['key'] = $this->getKey();
+        list($song['affinity'], $song['mode']) = $this->getMode();
+        list($song['chords'], $song['arrangement'], $song['debug']) = $this->getChords($song['key'], $song['mode']);
+        $song['tempo'] = $this->getTempo();
+        $song['concepts'] = $this->getConcepts();
 
         return json_encode($song);
     }

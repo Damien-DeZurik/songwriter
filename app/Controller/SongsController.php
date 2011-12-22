@@ -16,14 +16,14 @@ class SongsController extends AppController {
 
     function sensay() {
         $song = json_decode($this->Song->createSong(),true);
-        $this->set('key', $song['_key']);
-        $this->set('mode', $song['_mode']);
-        $this->set('maj_min', $song['_affinity']);
-        $this->set('arrangement', $song['_debug']['Arrangement']);
-        $this->set('chords', $song['_chords']);
-        $this->set('tempo', $song['_tempo']);
-        $this->set('concepts', $song['_concepts']);
-        $this->set('debug', print_r($song['_debug'],true));
+        $this->set('key', $song['key']);
+        $this->set('mode', $song['mode']);
+        $this->set('maj_min', $song['affinity']);
+        $this->set('arrangement', $song['debug']['Arrangement']);
+        $this->set('chords', $song['chords']);
+        $this->set('tempo', $song['tempo']);
+        $this->set('concepts', $song['concepts']);
+        $this->set('debug', print_r($song['debug'],true));
     }
 
     public function songoftheweek() {
@@ -36,7 +36,7 @@ class SongsController extends AppController {
         // 1. Determine if we have a song for this week yet
         if ($mSong) {
             // We have an song to display
-            $song = $mSong['Song']['arrangement'];
+            $song = Song::normalizeArrayKeys($mSong['Song']['arrangement']);
         } else {
             // Create a new one
             $song = $this->Song->createSong();
@@ -57,7 +57,11 @@ class SongsController extends AppController {
 
         // Shows song of the week
         $songoftheweek = $this->Song->makeSongDisplayParts($song);
-        $this->set('songoftheweek', $songoftheweek);
+        $this->set('key', $songoftheweek['key']);
+        $this->set('affinity', $songoftheweek['affinity']);
+        $this->set('chords', $songoftheweek['chords']);
+        $this->set('concepts', $songoftheweek['concepts']);
+        $this->set('arrangement', $songoftheweek['arrangement']);
 
         // Calculate how much time to next song
         $nextweek = (date("W",time())) + 1;
