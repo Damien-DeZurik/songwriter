@@ -198,7 +198,7 @@ class Song extends AppModel {
 
         $debug['Key'] = $key;
         $debug['Mode'] = $mode;
-        $debug['Arrangement'] = implode('|',$arrangement);
+        $debug['Arrangement'] = implode(' ',$arrangement);
 
         $maj_harm = array('','m','m','','','m','dim');
         $min_harm = array('m','dim','','m','m','','');
@@ -253,7 +253,7 @@ class Song extends AppModel {
 
         $debug['Chords'] = $chords;
 
-        return array($chords, $debug);
+        return array($chords, $arrangement, $debug);
     }
 
     function getTempo() {
