@@ -76,21 +76,21 @@ class SongsController extends AppController {
         $days = ($hours / 24);
         //Decide whether to show days, hours, minutes, or seconds
         $timevalue = (float)$days;
-        $units = 'days';
+        $units = (int)$timevalue == 1 ? 'day' : 'days';
         // Switch to hours
         if ($timevalue < 1.0) {
             $timevalue = (float)$hours;
-            $units = 'hours';
+            $units = (int)$timevalue == 1 ? 'hour' : 'hours';
         }
         // Switch to minutes
         if ($timevalue < 1.0) {
             $timevalue = (float)$minutes;
-            $units = 'minutes';
+            $units = (int)$timevalue ? 'minute' : 'minutes';
         }
         // Switch to seconds
         if ($timevalue < 1.0) {
             $timevalue = (float)$seconds;
-            $units = 'seconds';
+            $units = (int)$timevalue ? 'second' : 'seconds';
         }
         // Round timeval
         $timevalue = floor((float)$timevalue);
