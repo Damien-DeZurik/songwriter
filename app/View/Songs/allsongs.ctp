@@ -19,8 +19,10 @@
         <td>
             <?
             $parts = json_decode($song['Song']['arrangement'], true);
-            $debug = $parts['_debug'];
-            unset($parts['_debug']);
+            
+            $debug_index = isset($parts['debug']) ? 'debug' : '_debug';
+            $debug = $parts[$debug_index];
+            unset($parts[$debug_index]);
 
             foreach ($parts as $k=>$v) {
                 print "<strong>$k</strong> <em>$v</em><br/>";
