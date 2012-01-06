@@ -62,6 +62,7 @@ class SongsController extends AppController {
         $this->set('chords', $songoftheweek['chords']);
         $this->set('concepts', $songoftheweek['concepts']);
         $this->set('arrangement', $songoftheweek['arrangement']);
+        $this->set('mode', $songoftheweek['mode']);
 
         // Calculate how much time to next song
         $nextweek = (date("W",time())) + 1;

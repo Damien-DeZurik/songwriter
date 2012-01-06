@@ -1,3 +1,8 @@
+<?php
+$arrangement_disp = implode(' ', $arrangement);
+$concepts_disp = '"<em>' . str_replace(', ', '"</em> and <em>"', $concepts) . '</em>"';
+?>
+
 <h2>Song of the Week</h2>
 
 <table border="0">
@@ -16,26 +21,30 @@
     </tr>
 	<tr id="morelink">
 		<td></td>
-		<td width="100%"><a href="javascript: document.getElementById('morelink').style.display='none'; document.getElementById('more').style.display='block';">[+]</a></td>
+		<td width="100%"><a href="javascript: document.getElementById('morelink').style.display='none'; document.getElementById('more').style.display='';">more..</a></td>
 	</tr>
     <tbody id="more" style="display:none">
         <tr>
             <td><strong>Arrangement</strong></td>
-            <td width="100%"><?php echo $arrangement; ?></td>
+            <td width="100%"><?php echo $arrangement_disp; ?></td>
+        </tr>
+        <tr>
+            <td><strong>Mode</strong></td>
+            <td width="100%"><?php echo $mode; ?></td>
         </tr>
         <tr id="moremorelink">
             <td></td>
-            <td width="100%"><a href="javascript: document.getElementById('moremorelink').style.display='none'; document.getElementById('moremoremore').style.display='block';">[++]</a></td>
+            <td width="100%"><a href="javascript: document.getElementById('moremorelink').style.display='none'; document.getElementById('moremoremore').style.display='';">more...</a></td>
         </tr>
     </tbody>
     <tbody id="moremoremore" style="display:none">
         <tr >
             <td><strong>Lyrics</strong></td>
-            <td width="100%">Think about what "<?= $concepts ?>" mean to you. What other meanings can they have? Can you fit it into a song?</td>
+            <td width="100%">What do the words <?= $concepts_disp ?> mean to you? What other meanings can they have? Let these words drive or contribute to the lyrical story of the song.</td>
         </tr>
         <tr>
             <td><strong>What to do</strong></td>
-            <td width="100%">Write a song using these ideas. Don't feel like you must stick stick to the arrangement exactly. Explore your creativity letting your rhythm lead.</td>
+            <td width="100%">Write a song using these ideas. These are guidelines, use them as a statring point.</td>
         </tr>
     </tbody>
 </tbody>
