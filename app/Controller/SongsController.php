@@ -108,16 +108,9 @@ class SongsController extends AppController {
             <li>Unique constraint on week+year on arr_weeks
             <li>have a debug controller, so I can just, when logged in, type in my
             ideas and they save in a pagn'td list.
-            <li>Click [+] by sotw, expands to show debugging info that matters
-            (scale, harm, arrangement, mode) to a user, have wordings on what you
-            can and can't do with songs.
-            >>You may not use all the chords. Try to use most of the song.
-            >> Concepts: Think about "xxx" and what it means to you. What other
-            meanings can it have.
-            <li>Have a second [+] or [++] to expand those wordings that never
-            change, like the definition of "Concepts".
-            <li>* '|' delimiter still on "Arrangement" in Sensay
-            <li>* Unit tests, deploy
+            <li>Unit tests, deploy
+            <li>on 1/1/2012 at 5 pm it said there are 364 more days until the next song</li>
+            <li>LInking to the site always send you to login page.</li>
 	
 qq;
         $this->set('todo', $list);

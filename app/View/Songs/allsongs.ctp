@@ -1,3 +1,5 @@
+<?php ?>
+
 <h2>All Songs</h2>
 
 <table>
