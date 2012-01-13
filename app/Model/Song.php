@@ -58,7 +58,7 @@ class Song extends AppModel {
      *  or so songs and should be removed after I have a way to open and rewrite
      *  json values.
      */
-    private static function getKeyValue(&$data, $key) {
+    public static function getKeyValue(&$data, $key) {
         if (array_key_exists($key,$data)) {
             return $data[$key];
         } else if (array_key_exists('_'.$key, $data)) {
@@ -99,11 +99,11 @@ class Song extends AppModel {
         // Assemble the components
         $song['key'] = $this->getKey();
         list($song['affinity'], $song['mode']) = $this->getMode();
-        list($song['chords'], $song['arrangement'], $song['debug']) = $this->getChords($song['key'], $song['mode']);
+        list($songparts, $song['debug']) = $this->getChords($song['key'], $song['mode']);
         $song['tempo'] = $this->getTempo();
         $song['concepts'] = $this->getConcepts();
 
-        return json_encode($song);
+        return json_encode(array_merge($song,$songparts));
     }
 
     function getArrangement() {
@@ -194,11 +194,11 @@ class Song extends AppModel {
     }
 
     function makeChords($key, $mode, $arrangement) {
-        $debug = array();
+        $debug = $songparts = array();
 
-        $debug['Key'] = $key;
-        $debug['Mode'] = $mode;
-        $debug['Arrangement'] = implode(' ',$arrangement);
+        $songparts['key'] = $key;
+        $songparts['mode'] = $mode;
+        $songparts['arrangement'] = implode(' ',$arrangement);
 
         $maj_harm = array('','m','m','','','m','dim');
         $min_harm = array('m','dim','','m','m','','');
@@ -216,8 +216,8 @@ class Song extends AppModel {
         $interval = $intervals[$mode][0];
         $harm     = $intervals[$mode][1];
 
-        $debug['Interval'] = implode('|',$interval);
-        $debug['Harm']     = implode('|',$harm);
+        $debug['interval'] = implode(' ',$interval);
+        $debug['harm']     = implode(' ',$harm);
 
         // Make lists for sharps and flats
         $flatscale    = array('A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab');
@@ -226,12 +226,12 @@ class Song extends AppModel {
         // Determine which series to use 
         $notescale = strstr($key, 'b') ? $flatscale : $sharpscale;
 
-        $debug['Notescale'] = implode('|',$notescale);
+        $debug['notescale'] = implode(' ',$notescale);
 
         // Get the starting index
         $start_index = (array_search($key, $notescale));
 
-        $debug['Start_index'] = $start_index;
+        $debug['start_index'] = $start_index;
 
         // Make scale of intervalse
         $ctr = 0;
@@ -244,16 +244,16 @@ class Song extends AppModel {
         // Double the len so we can iterate from any point w/o wrapping.
         $scalelong = array_merge($scale, $scale);
 
-        $debug['Scale'] = implode('|', $scalelong);
+        $songparts['scale'] = implode(' ', $scalelong);
 
         $chords = '';
         foreach ($arrangement as $val) {
             $chords .= $scalelong[($val-1)] . '&nbsp;&nbsp; ';
         }
 
-        $debug['Chords'] = $chords;
+        $songparts['chords'] = $chords;
 
-        return array($chords, $arrangement, $debug);
+        return array($songparts, $debug);
     }
 
     function getTempo() {

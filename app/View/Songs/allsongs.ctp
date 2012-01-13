@@ -19,7 +19,7 @@
         <td>
             <?
             $parts = json_decode($song['Song']['arrangement'], true);
-            
+
             $debug_index = isset($parts['debug']) ? 'debug' : '_debug';
             $debug = $parts[$debug_index];
             unset($parts[$debug_index]);

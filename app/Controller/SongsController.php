@@ -18,9 +18,10 @@ class SongsController extends AppController {
         $song = json_decode($this->Song->createSong(),true);
         $this->set('key', $song['key']);
         $this->set('mode', $song['mode']);
-        $this->set('maj_min', $song['affinity']);
-        $this->set('arrangement', $song['debug']['Arrangement']);
+        $this->set('affinity', $song['affinity']);
+        $this->set('arrangement', $song['arrangement']);
         $this->set('chords', $song['chords']);
+        $this->set('scale', $song['scale']);
         $this->set('tempo', $song['tempo']);
         $this->set('concepts', $song['concepts']);
         $this->set('debug', print_r($song['debug'],true));
@@ -63,6 +64,7 @@ class SongsController extends AppController {
         $this->set('concepts', $songoftheweek['concepts']);
         $this->set('arrangement', $songoftheweek['arrangement']);
         $this->set('mode', $songoftheweek['mode']);
+        $this->set('scale', Song::getKeyValue($songoftheweek,'scale'));
 
         // Calculate how much time to next song
         $nextweek = (date("W",time())) + 1;
