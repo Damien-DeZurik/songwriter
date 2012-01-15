@@ -25,6 +25,19 @@ $title = "Songwriter";
 		<div id="header">
 			<h1>
                 <div>
+			<?php echo
+					$this->Html->image(
+						'cake.icon.png', 
+						array(
+							'alt'=> 'home',
+							'border' => '0',
+							'url' => array(
+								'controller' => '/'
+							),
+							'style' => 'vertical-align:middle;'
+						)
+					);
+			?>
                 <?
                 //echo $this->Html->link('Home', array('controller' => '/'));
                 echo $this->Html->link('Song of the Week', array('controller' => 'songs', 'action' => 'songoftheweek'));
