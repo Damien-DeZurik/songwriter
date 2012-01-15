@@ -6,6 +6,7 @@ class SongsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        $this->Auth->allow('songoftheweek','allsongs');
     }
 
     public function allsongs() {

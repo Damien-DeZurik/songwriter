@@ -28,10 +28,10 @@ $title = "Songwriter";
                 <?
                 //echo $this->Html->link('Home', array('controller' => '/'));
                 echo $this->Html->link('Song of the Week', array('controller' => 'songs', 'action' => 'songoftheweek'));
+                echo ' | ' . $this->Html->link('All Songs', array('controller' => 'songs', 'action' => 'allsongs'));
 
                 if ($loggedin) {
                     echo ' | ' . $this->Html->link('Sensay', array('controller' => 'songs', 'action' => 'sensay'));
-                    echo ' | ' . $this->Html->link('All Songs', array('controller' => 'songs', 'action' => 'allsongs'));
                     if ($admin) {
                         echo ' | ' . $this->Html->link('Users', array('controller' => 'users', 'action' => 'index'));
                         echo ' | ' . $this->Html->link('Register', array('controller' => 'users', 'action' => 'add'));

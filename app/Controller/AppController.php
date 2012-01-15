@@ -4,14 +4,15 @@ class AppController extends Controller {
     public $components = array(
         'Session',
         'Auth' => array(
-            'loginRedirect' => array('controller' => 'songs', 'action' => 'allsongs'),
+            'loginRedirect' => array('controller' => 'songs', 'action' => 'songoftheweek'),
             'logoutRedirect' => array('controller' => 'songs', 'action' => 'songoftheweek'),
             'authorize' => array('Controller')
         ),
     );
 
     function beforeFilter() {
-        $this->Auth->allow('songoftheweek');
+	$this->Auth->deny('*');
+        $this->Auth->allow('display');
 
         // Set admin variable
         $this->set('admin', $this->isAdmin());
