@@ -102,7 +102,7 @@ class SongsController extends AppController {
         $this->set('timeleft', "$timevalue $units");
 
         // Show existing songs
-        $this->set('songs', $this->Song->find('all'));
+ //       $this->set('songs', $this->Song->find('all'));
 
         // Show my todo list
         $list = <<<qq
