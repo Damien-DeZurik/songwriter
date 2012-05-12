@@ -6,7 +6,7 @@
 
 <? print $this->element('showsong'); ?>
 
-<div align="right">The next song will be available in <strong><em style="color:green;"><?php print $timeleft; ?></em></strong></div>
+<div align="right">Next song <strong><em style="color:green;"><?php print $timeleft; ?></em></strong></div>
 
 <?
     if ($loggedin && $admin) {
