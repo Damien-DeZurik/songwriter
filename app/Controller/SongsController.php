@@ -79,7 +79,7 @@ class SongsController extends AppController {
         $hours = ($minutes / 60);
         $days = ($hours / 24);
         //Decide whether to show days, hours, minutes, or seconds
-        $timevalue = (float)$days;
+        $timevalue = ceil((float)$days);
         $units = (int)$timevalue == 1 ? 'day' : 'days';
         // Switch to hours
         if ($timevalue < 1.0) {
@@ -106,15 +106,22 @@ class SongsController extends AppController {
 
         // Show my todo list
         $list = <<<qq
-            <li>Song of the week has to recover and fill in missing weeks if not gen'd
-            <li>Concepts came up with same word twice.
+	<h1>Current Release</h1>
+            <ol>
             <li>Unique constraint on week+year on arr_weeks
-            <li>have a debug controller, so I can just, when logged in, type in my
             ideas and they save in a pagn'td list.
             <li>Unit tests, deploy
             <li>on 1/1/2012 at 5 pm it said there are 364 more days until the next song</li>
-            <li>LInking to the site always send you to login page.</li>
-	
+	<li>hit /songs/ and get error that the page doesn't exist. Happens prolly with any undefined page. Need custom 404
+		</ol>
+<br />
+	<h1>Future Release</h1>
+	<ol>
+            <li>Concepts came up with same word twice.
+            <li>have a debug controller, so I can just, when logged in, type in my
+		<li>Song of the week has to recover and fill in missing weeks if not gen'd
+
+	</ol>
 qq;
         $this->set('todo', $list);
     }
