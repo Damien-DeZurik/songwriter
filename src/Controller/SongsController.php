@@ -20,12 +20,11 @@ class SongsController extends AppController {
         $this->set(compact('song'));
     }
 
-    #public $components = array('RequestHandler');
-
-    public function beforeFilter(EventInterface $event) {
-        parent::beforeFilter($event);
-        #$this->Auth->allow('songoftheweek','allsongs');
-    }
+#    public $components = array('RequestHandler');
+#    public function beforeFilter(EventInterface $event) {
+#        parent::beforeFilter($event);
+#        #$this->Auth->allow('songoftheweek','allsongs');
+#    }
 
     public function allsongs() {
         $this->Song->recursive = 0;
@@ -51,15 +50,20 @@ class SongsController extends AppController {
         list($year,$week) = explode('.', date("Y.W",time()));
 
         //$this->loadModel('Part');
-        $this->loadModel('Song');
-        $mSong = $this->Song->find('first', array('conditions'=>array('year' => $year, 'week' => $week)));
+        $this->loadModel('Sotxs');
+        $mSong = $this->Sotxs
+            ->find()
+            ->where(['year' => $year, 'week' => $week])
+            ->first();
+        debug($msong);
+
         // 1. Determine if we have a song for this week yet
         if ($mSong) {
             // We have an song to display
             $song = Song::normalizeArrayKeys($mSong['Song']['arrangement']);
         } else {
             // Create a new one
-            $song = $this->Song->createSong();
+            $song = $this->Songs->createSong();
 
             // Save it to db as this week's song
             $savedata = array(
@@ -72,7 +76,7 @@ class SongsController extends AppController {
                     'week'=>$week,
                 ),
             );
-            $this->Song->saveAll($savedata);
+            $this->Sotxs->save($savedata);
         }
 
         // Shows song of the week
