@@ -3,10 +3,13 @@ namespace App\Model\Table;
 use Cake\ORM\Table;
 
 class SongsTable extends Table {
-    public $name = 'Song';
-    public $hasOne = array('Songs_week');
-
-    public function initialize(array $config): void {}
+    public function initialize(array $config): void {
+        $this->hasOne("SongOfTheWeek", ['className' => 'Sotxs'])
+              ->setForeignKey('song_id')
+              //;
+        #$this->hasOne("Sotxs");
+        ;
+    }
 
     function getKey() {
         // pick note in 12-note scale relative to A

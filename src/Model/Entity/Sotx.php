@@ -7,5 +7,6 @@ class Sotx extends Entity
 {
     protected $_accessible = [
         '*' => true,
+        'year' => true,
     ];
 }

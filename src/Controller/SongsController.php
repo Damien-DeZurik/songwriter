@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Controller\Controller;
+//use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
+//use Cake\Cache\Cache;
 
 class SongsController extends AppController {
 
@@ -46,6 +47,31 @@ class SongsController extends AppController {
     }
 
     public function songoftheweek() {
+
+
+//           Cache::clear();
+// //          clearCache();
+//
+//           $files = array();
+//           $files = array_merge($files, glob(CACHE . '*')); // remove cached css
+//           $files = array_merge($files, glob(CACHE . 'css' . DS . '*')); // remove cached css
+//           $files = array_merge($files, glob(CACHE . 'js' . DS . '*'));  // remove cached js
+//           $files = array_merge($files, glob(CACHE . 'models' . DS . '*'));  // remove cached models
+//           $files = array_merge($files, glob(CACHE . 'persistent' . DS . '*'));  // remove cached persistent
+//
+//           foreach ($files as $f) {
+//               if (is_file($f)) {
+//                   unlink($f);
+//               }
+//           }
+//
+//           if(function_exists('apc_clear_cache')):
+//           apc_clear_cache();
+//           apc_clear_cache('user');
+//           endif;
+//
+//           Cache::enable();
+
         // Song of the week
         list($year,$week) = explode('.', date("Y.W",time()));
 
@@ -55,15 +81,16 @@ class SongsController extends AppController {
             ->find()
             ->where(['year' => $year, 'week' => $week])
             ->first();
-        debug($msong);
 
         // 1. Determine if we have a song for this week yet
         if ($mSong) {
             // We have an song to display
-            $song = Song::normalizeArrayKeys($mSong['Song']['arrangement']);
+//            $song = Song::normalizeArrayKeys($mSong['Song']['arrangement']);
         } else {
             // Create a new one
             $song = $this->Songs->createSong();
+/*
+            #$songs = $this->getTableLocator()->get('Songs');
 
             // Save it to db as this week's song
             $savedata = array(
@@ -76,7 +103,75 @@ class SongsController extends AppController {
                     'week'=>$week,
                 ),
             );
-            $this->Sotxs->save($savedata);
+
+            $savedata2 = array(
+                'created'=>date("Y-m-d H:i:s", time()),
+                'arrangement'=>$song,
+                'year'=>'1999',
+                'week'=>'99',
+                'Sotxs' => array(
+                    'year'=>$year,
+                    'week'=>$week,
+                ),
+                'Sotx' => array(
+                    'year'=>$year,
+                    'week'=>$week,
+                ),
+                'Sotw' => array(
+                    'year'=>$year,
+                    'week'=>$week,
+                ),
+                'Sotws' => array(
+                    'year'=>$year,
+                    'week'=>$week,
+                ),
+                'Songs_weeks' => array(
+                    'year'=>$year,
+                    'week'=>$week,
+                ),
+                'songs_weeks' => array(
+                    'year'=>$year,
+                    'week'=>$week,
+                ),
+                'SongOfTheWeek' => array(
+                    'year'=>$year,
+                    'week'=>$week,
+                ),
+            );
+            $songs = $this->getTableLocator()->get('Songs');
+            $songentity2 = $songs->newEntity($savedata2
+//            , [
+//                'associated' => ['SongOfTheWeek.song_id']
+//            ]
+          );
+            //debug($songs->schema());
+            $songs->save($songentity2);
+            debug($songentity2);
+            //debug($songs);
+            //debug($songs->validationErrors); //show validationErrors
+            //debug($songs->getDataSource()->getLog(false, false)); //show last sql query
+*/
+
+
+            $songentity = $this->Songs->newEmptyEntity();
+            $songentity->created = date("Y-m-d H:i:s", time());
+            $songentity->arrangement = $song;
+            $songentity->year = $year;
+            $songentity->week = $week;
+            $newsong = $this->Songs->save($songentity);
+            debug($newsong->get('id'));
+
+//--
+
+            $sotxtbl = $this->getTableLocator()->get('Sotxs');
+            $sotxent = $sotxtbl->newEmptyEntity();
+            $sotxent->song_id = $newsong->get('id');
+            $sotxent->year = (int)$year;
+            $sotxent->week = (int)$week;
+            $sotxtbl->save($sotxent);
+
+            debug($songentity);
+            debug($sotxent);
         }
 
         // Shows song of the week
