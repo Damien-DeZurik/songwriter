@@ -91,7 +91,7 @@ class SongsTable extends Table {
         }
         // Check if arrangement is set. if not, may be in the debug section.
         if (!isset($aData['arrangement'])) {
-            $aData['arrangement'] = str_replace('|', ' ', Song::getKeyValue($aData['debug'], 'Arrangement'));
+            $aData['arrangement'] = str_replace('|', ' ', SongsTable::getKeyValue($aData['debug'], 'Arrangement'));
         }
         return json_encode($aData);
     }

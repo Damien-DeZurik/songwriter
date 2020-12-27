@@ -60,12 +60,10 @@ class SongsController extends AppController {
             ->where(['year' => $year, 'week' => $week])
             ->first();
 
-// FIXME: Allow to work with existing songs
-
         // 1. Determine if we have a song for this week yet
         if ($mSong && false) {
             // We have an song to display
-            $song = Songs::normalizeArrayKeys($mSong['Song']['arrangement']);
+            $song = SongsTable::normalizeArrayKeys($mSong['Song']['arrangement']);
         } else {
             // Create a new one
             $song = $this->Songs->createSong();
@@ -102,9 +100,10 @@ class SongsController extends AppController {
         // Calculate how much time to next song
         $nextweek = (date("W",time())) + 1;
         $curyear = date("Y",time());
-        $dt = new DateTime('now');
-        $dt->setISODate($curyear,$nextweek);
+        $dt = new \DateTime('now');
+        $dt->setISODate((int)$curyear,(int)$nextweek);
         $newsongtime = strtotime($dt->format('Y-m-d') . ' 00:00:00');
+
         // Calculate times
         $seconds = ($newsongtime - time());
         $minutes = ($seconds / 60);
