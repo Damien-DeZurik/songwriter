@@ -67,3 +67,5 @@ $scale_disp = implode(' ', array_slice(explode(' ', $scale),0,7));
     </tbody>
 </tbody>
 </table>
+
+<div align="right">Next song <strong><em style="color:green;"><?php print $timeleft; ?></em></strong></div>

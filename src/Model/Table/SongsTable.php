@@ -66,7 +66,7 @@ class SongsTable extends Table {
      *  json values.
      */
     public static function getKeyValue(&$data, $key) {
-        if (array_key_exists($key,$data)) {
+        if ($data && array_key_exists($key,$data)) {
             return $data[$key];
         } else if (array_key_exists('_'.$key, $data)) {
             return $data['_'.$key];
@@ -80,6 +80,7 @@ class SongsTable extends Table {
      * @brief Remove underscores from array keys. Legacy
      */
     public static function normalizeArrayKeys(&$data) {
+        if(!$data) return;
         // json to array
         $aData = json_decode($data,true);
         foreach ($aData as $key => $value) {

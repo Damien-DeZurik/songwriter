@@ -53,17 +53,26 @@ class SongsController extends AppController {
         // Song of the week
         list($year,$week) = explode('.', date("Y.W",time()));
 
-        //$this->loadModel('Part');
         $this->loadModel('Sotxs');
-        $mSong = $this->Sotxs
+
+        //debug($this->Sotxs);
+
+        $mSotx = $this->Sotxs
             ->find()
             ->where(['year' => $year, 'week' => $week])
             ->first();
 
+        //debug($mSotx);
+
+        $mSong = $this->Sotxs->loadInto($mSotx, ['Songs']);
+
+        //debug($mSong);
+
         // 1. Determine if we have a song for this week yet
-        if ($mSong && false) {
+        if ($mSong !== NULL) {
             // We have an song to display
-            $song = SongsTable::normalizeArrayKeys($mSong['Song']['arrangement']);
+            $song = SongsTable::normalizeArrayKeys($mSong['song']['arrangement']);
+            //debug($song);
         } else {
             // Create a new one
             $song = $this->Songs->createSong();
@@ -74,7 +83,7 @@ class SongsController extends AppController {
             $songentity->year = $year;
             $songentity->week = $week;
             $newsong = $this->Songs->save($songentity);
-            // debug($newsong->get('id'));
+            //debug($newsong->get('id'));
 
             $sotxtbl = $this->getTableLocator()->get('Sotxs');
             $sotxent = $sotxtbl->newEmptyEntity();
@@ -83,9 +92,11 @@ class SongsController extends AppController {
             $sotxent->week = (int)$week;
             $sotxtbl->save($sotxent);
 
-            // debug($songentity);
-            // debug($sotxent);
+            //debug($songentity);
+            //debug($sotxent);
         }
+
+        //debug($song);
 
         // Shows song of the week
         $songoftheweek = $this->Songs->makeSongDisplayParts($song);
@@ -133,7 +144,7 @@ class SongsController extends AppController {
         $this->set('timeleft', "$timevalue $units");
 
         // Show existing songs
- //       $this->set('songs', $this->Songs->find('all'));
+        $this->set('songs', $this->Songs->find('all'));
 
         // Show my todo list
         $list = <<<qq
